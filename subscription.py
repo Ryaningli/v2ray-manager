@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 from urllib.parse import urlsplit
 import requests
 from base_config import BaseConfig
+
 if TYPE_CHECKING:
     from manager import V2rayManager
 
@@ -103,7 +104,8 @@ class Sub:
                     name = f'未知节点_{unknown_node_count}'
                     unknown_node_count += 1
                 file_path = os.path.join(sub_tmp_path, 'v2ray-config-' + name + '.json')
-                BaseConfig(config['add'], int(config['port']), config['id'], alter_id=int(config['aid'])).save(file_path)
+                BaseConfig(config['add'], int(config['port']), config['id'], alter_id=int(config['aid']),
+                           path=config['path']).save(file_path)
                 print(f'添加节点配置-{name}')
             except Exception as e:
                 msg = f'解析订阅异常：\n{e}'

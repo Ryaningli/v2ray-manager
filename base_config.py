@@ -4,8 +4,13 @@ import os
 
 class BaseConfig:
 
-    def __init__(self, address, port, user_id, alter_id=0):
+    def __init__(self, address, port, user_id, alter_id=0, path=''):
         self.base_config = {
+            "log": {
+                "access": "",
+                "error": "",
+                "loglevel": "warning"
+            },
             "inbounds": [
                 {
                     "port": 10809,
@@ -50,7 +55,17 @@ class BaseConfig:
                                 ]
                             }
                         ]
-                    }
+                    },
+                    "streamSettings": {
+                        "network": "ws",
+                        "security": "tls",
+                        "tlsSettings": {
+                            "allowInsecure": False
+                        },
+                        "wsSettings": {
+                            "path": path
+                        }
+                    },
                 }
             ]
         }

@@ -33,6 +33,11 @@
       }
     }
   ],
+  "log": {
+    "access": "",
+    "error": "",
+    "loglevel": "warning"
+  },
   "outbounds": [
     {
       "protocol": "vmess",
@@ -49,6 +54,16 @@
             ]
           }
         ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "allowInsecure": false
+        },
+        "wsSettings": {
+          "path": "/cpyhyfd3"
+        }
       }
     }
   ]
