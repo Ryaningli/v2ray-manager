@@ -1,0 +1,11 @@
+configs_path: ./configs
+port:
+  sock: 10809
+  http: 10810
+subs:
+  - name: 云梯
+    path: ytsub
+    url: 'https://ytsub.top/v2.php?port=11678&password=2776f980'
+    status: True
+global: True
+strict: True

@@ -1,0 +1,55 @@
+{
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 10809,
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true
+      },
+      "sniffing": {
+        "destOverride": [
+          "http",
+          "tls"
+        ],
+        "enabled": true
+      }
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": 10810,
+      "protocol": "http",
+      "settings": {
+        "auth": "noauth",
+        "udp": true
+      },
+      "sniffing": {
+        "destOverride": [
+          "http",
+          "tls"
+        ],
+        "enabled": true
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "v2jp2.ytv2line.top",
+            "port": 48102,
+            "users": [
+              {
+                "alterId": 2,
+                "id": "77adc733-65b4-8dda-f8b3-c6e5f440b2d3"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
