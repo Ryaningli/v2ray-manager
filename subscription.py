@@ -4,6 +4,7 @@ import json
 import os
 import random
 import shutil
+import time
 from base64 import b64decode
 from typing import TYPE_CHECKING
 from urllib.parse import urlsplit
@@ -33,17 +34,18 @@ class SubConfig:
 class Sub:
     def __init__(self, manager: 'V2rayManager'):
         self.manager = manager
-        self.schemes_allow = ['vmess', 'ss', 'socks']
-        self.subs = self.subs_formatter()
+        self.settings = self.manager.settings
         self.tmp_path = os.path.join('./tmp', 'v2ray-subs',
                                      datetime.datetime.now().strftime(f'%Y%m%d%H%M%S%f_{random.randint(1000, 9999)}'))
-        self.configs_path = self.manager.settings['configs_path']
-        if not os.path.exists(self.tmp_path):
-            os.makedirs(self.tmp_path)
+        self.schemes_allow = ['vmess', 'ss', 'socks']
+        self.subs = self.subs_formatter()
+        self.configs_path = self.settings['configs_path']
+        # if not os.path.exists(self.tmp_path):
+        #     os.makedirs(self.tmp_path)
 
     def subs_formatter(self, subs=None):
         if subs is None:
-            subs = self.manager.settings['subs']
+            subs = self.settings['subs']
         subs_format = []
         for sub in subs:
             url = sub['url']
@@ -109,7 +111,7 @@ class Sub:
                 print(f'添加节点配置-{name}')
             except Exception as e:
                 msg = f'解析订阅异常：\n{e}'
-                if self.manager.settings['strict']:
+                if self.settings['strict']:
                     raise RuntimeError(msg)
                 else:
                     print(msg)
@@ -125,6 +127,12 @@ class Sub:
         config = b64decode(netloc).decode('utf-8')
         return json.loads(config)
 
+    def subs_list(self, except_invalid=True, hide_secret=True):
+        if except_invalid:
+            return list(filter(lambda x: x.status, self.settings.subs))
+        else:
+            return self.settings.subs
+
     def __del__(self):
-        if os.path.exists(self.tmp_path):
+        if hasattr(self, 'tmp_path') and os.path.exists(self.tmp_path):
             shutil.rmtree(self.tmp_path)

@@ -7,5 +7,9 @@ subs:
     path: ytsub
     url: 'https://ytsub.top/v2.php?port=11678&password=2776f980'
     status: True
+  - name: 云梯2
+    path: ytsub2
+    url: 'https://ytsub.top/v2.php?port=11678&password=2776f9802'
+    status: True
 global: True
 strict: True
