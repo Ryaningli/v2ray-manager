@@ -9,7 +9,6 @@ from settings import Settings
 from subscription import Sub
 from v2ray import V2ray
 
-
 BASE_DIR = os.path.split(os.path.realpath(__file__))[0]
 
 
@@ -35,11 +34,13 @@ class V2rayManager:
                 return True
             except ValueError:
                 return False
+
         '''规则集'''
         rules = {
             '1': [
                 (lambda: len(args) < 2, '参数错误，最多可输入一个配置id！'),
-                (lambda: (len(args) == 1 and can_int(args[0]) and 0 < int(args[0]) <= len(configs_list)) or len(args) == 0,
+                (lambda:
+                 (len(args) == 1 and can_int(args[0]) and 0 < int(args[0]) <= len(configs_list)) or len(args) == 0,
                  '请输入正确的配置id！')
             ]
         }
@@ -53,6 +54,10 @@ class V2rayManager:
                         msg = '命令异常'
                     print(msg)
                     self.main()
+        else:
+            if args:
+                print(f'参数不正确')
+                self.main()
 
         '''格式化集'''
         formatter = {
@@ -70,12 +75,13 @@ class V2rayManager:
               '1：启动v2ray <ID>\n' \
               '2：停止v2ray\n' \
               '3：重启v2ray\n' \
-              '4：更新订阅\n' \
-              '5：列出全部配置文件\n' \
-              '6：开启临时代理\n' \
-              '7：关闭临时代理\n' \
-              '8：开启永久代理\n' \
-              '9：关闭永久代理\n' \
+              '4：列出全部订阅' \
+              '5：更新订阅\n' \
+              '6：列出全部配置文件\n' \
+              '7：开启临时代理\n' \
+              '8：关闭临时代理\n' \
+              '9：开启永久代理\n' \
+              '10：关闭永久代理\n' \
               'q：退出\n' \
               '>>> '
         inp = input(msg)
@@ -85,7 +91,11 @@ class V2rayManager:
         match cmd:
             case '1':
                 self.v2ray.start(args)
-            case '5':
+            case '2':
+                self.v2ray.stop()
+            case '3':
+                self.v2ray.restart(args)
+            case '6':
                 print(configs_str)
             case 'q':
                 raise KeyboardInterrupt
