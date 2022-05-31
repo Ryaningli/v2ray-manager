@@ -127,11 +127,46 @@ class Sub:
         config = b64decode(netloc).decode('utf-8')
         return json.loads(config)
 
-    def subs_list(self, except_invalid=True, hide_secret=True):
+    def get_subs(self, except_invalid=True, hide_secret=True):
         if except_invalid:
             return list(filter(lambda x: x.status, self.settings.subs))
         else:
             return self.settings.subs
+
+    def get_configs(self):
+        out_configs = {'默认节点': []}
+        config_paths = os.listdir(self.settings.configs_path)
+        for config_path in config_paths:
+            p = os.path.join(self.settings.configs_path, config_path)
+            if os.path.isfile(p):
+                if p.endswith('.json'):
+                    out_configs['默认节点'].append(p)
+            else:
+                configs = os.listdir(p)
+                out_configs[config_path] = []
+                for c in configs:
+                    pp = os.path.join(p, c)
+                    if os.path.isfile(pp) and pp.endswith('.json'):
+                        out_configs[config_path].append(pp)
+        filter_out = {}
+        for k, v in out_configs.items():
+            if len(v) > 0:
+                filter_out[k] = v
+        return filter_out
+
+    def configs_list(self):
+        configs = self.get_configs()
+        list_str = ''
+        num = 1
+        configs_list = []
+        for name, config in configs.items():
+            list_str += name + '\n'
+            list_str += f'{"ID":>6}' + '\t' * 2 + '配置文件名\n'
+            for c in config:
+                configs_list.append(c)
+                list_str += f'{num:>6}' + '\t' * 2 + f'{os.path.split(c)[-1]}\n'
+                num += 1
+        return list_str, configs_list
 
     def __del__(self):
         if hasattr(self, 'tmp_path') and os.path.exists(self.tmp_path):

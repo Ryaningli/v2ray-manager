@@ -1,3 +1,4 @@
+import subprocess
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -11,7 +12,8 @@ class V2ray:
         self.settings = manager.settings
 
     def start(self, config=None):
-        print('启动V2ray')
+        print(f'启动{config}')
+        # subprocess.run('nohup v2ray -config /etc/v2ray/config-jpn3.json > /etc/v2ray/access.log 2>&1 &')
 
     def stop(self):
         print('停止V2ray')
