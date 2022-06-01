@@ -1,4 +1,5 @@
-configs_path: ./configs
+configs_path: /etc/v2ray/v2ray-manager/configs
+default_config: /etc/v2ray/v2ray-manager/configs/ytsub/v2ray-config-韩国.json
 port:
   sock: 10809
   http: 10810
@@ -7,9 +8,5 @@ subs:
     path: ytsub
     url: 'https://ytsub.top/v2.php?port=11678&password=2776f980'
     status: True
-  - name: 云梯2
-    path: ytsub2
-    url: 'https://ytsub.top/v2.php?port=11678&password=2776f9802'
-    status: True
 global: True
-strict: True
+strict: False

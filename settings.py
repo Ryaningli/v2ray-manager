@@ -3,6 +3,7 @@ from utils.dot_dict import DotDict
 
 class Settings(DotDict):
     configs_path: str
+    default_config: str
 
     class Port(DotDict):
         sock: int

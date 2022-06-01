@@ -35,13 +35,11 @@ class Sub:
     def __init__(self, manager: 'V2rayManager'):
         self.manager = manager
         self.settings = self.manager.settings
-        self.tmp_path = os.path.join('./tmp', 'v2ray-subs',
+        self.tmp_path = os.path.join('/tmp', 'v2ray-subs',
                                      datetime.datetime.now().strftime(f'%Y%m%d%H%M%S%f_{random.randint(1000, 9999)}'))
         self.schemes_allow = ['vmess', 'ss', 'socks']
         self.subs = self.subs_formatter()
         self.configs_path = self.settings['configs_path']
-        # if not os.path.exists(self.tmp_path):
-        #     os.makedirs(self.tmp_path)
 
     def subs_formatter(self, subs=None):
         if subs is None:
@@ -89,10 +87,10 @@ class Sub:
     def update_sub(self, url, path):
         content = self.get_sub_content(url)
         if not content:
-            print('未获取到订阅内容：'
+            print(f'未获取到订阅内容[{url}]：'
                   f'{content}')
             exit()
-        print(f'获取订阅内容[{url}]:\n{content}')
+        print(f'获取订阅内容[{url}]:')
         share_links = b64decode(content).decode('utf-8').splitlines()
         unknown_node_count = 1
         sub_tmp_path = os.path.join(self.tmp_path, path)
